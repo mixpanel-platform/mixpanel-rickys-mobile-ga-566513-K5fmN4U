@@ -238,8 +238,7 @@
         }
         // Add funnel steps
         for (var i=0; i < height.length; i++) {
-          height = height[i]
-          $("#funnel").append("<div class='funnel-step'></div>");
+          $("#funnel").append("<div class='funnel-step' style='height:"+height[i]+"px'></div>");
         }
       };
       $("#run_button").on('click', function() {
