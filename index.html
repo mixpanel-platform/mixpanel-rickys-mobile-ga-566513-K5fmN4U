@@ -9,8 +9,8 @@
   <body class="mixpanel-platform-body">
     <h1>Transactional Funnels</h1>
     <div class="events_label">Funnel Steps:</div>
+    <div id="dates"></div>
     <input id="event_list" value="View signup,$signup,Viewed report">
-    $('<div>').MPDatepicker();
     <button id="run_button">Run query</button>
         <script type="text/cq" id="cq">
 var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
@@ -66,6 +66,7 @@ function main() {
 }
     </script>
     <script>
+      $('#dates').MPDatepicker();
       var script = $('#cq').html();
       script = $.trim(script);
       $("#run_button").on('click', function() {
