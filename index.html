@@ -72,7 +72,6 @@ function main() {
       var queryParams = {
         from_date:"2015-10-20",
         to_date:"2015-10-20",
-        event_list:event_list
       };
       MP.api.custom_query(script, queryParams).done(function(results) {
           cqResult = results[0];
