@@ -15,11 +15,11 @@
       var event_list = $('#event_list').val().split(',');
     </script>
         <script type="text/cq" id="cq">
-var params = {from_date:"2015-10-20", to_date:"2015-10-20"}
+var dates = {from_date:"2015-10-20", to_date:"2015-10-20"}
 var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
 var time_to_complete = 7000
 function main() {
-    return Events(params)
+    return Events(dates)
         .groupByUser(function(state, events){
             var state = state || {start:0}
             for (var i=0; i<events.length; i++){
