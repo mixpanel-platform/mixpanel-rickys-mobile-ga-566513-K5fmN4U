@@ -68,11 +68,9 @@ function main() {
     <script>
       var script = $('#cq').html();
       script = $.trim(script);
+       var event_list = $('#event_list').val().split(',');
+      var queryParams = {};
       $("#run_button").on('click', function() {
-      var event_list = $('#event_list').val().split(',');
-      var queryParams = {
-        event_list:event_list
-      };
       MP.api.custom_query(script, queryParams).done(function(results) {
           cqResult = results[0];
           console.log(cqResult)
