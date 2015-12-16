@@ -71,9 +71,10 @@ function main() {
       script = $.trim(script);
       function runQuery(){
         var event_list = $('#event_list').val().split(',');
+        var dateVal = $('#dates').val();
         var queryParams = {
-          to_date:"2015-10-20",
-          from_date:"2015-10-20",
+          from_date: date_to_string(dateVal.from),
+          to_date: date_to_string(dateVal.to),
           event_list:event_list
         };
         MP.api.custom_query(script, queryParams).done(function(results) {
@@ -84,6 +85,9 @@ function main() {
       $("#run_button").on('click', function() {
         runQuery();
       })
+      $('#dates').on('change', function() {
+        runQuery();
+      });
       // Run queries and display results here
     </script>
   </body>
