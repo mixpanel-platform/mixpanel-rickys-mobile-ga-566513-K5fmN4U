@@ -13,7 +13,7 @@
     <button id="run_button">Run query</button>
         <script type="text/cq" id="cq">
 var steps = ["App Open", "Game Played", "In-App Purchase", "Session End"]
-var time_to_complete = 7000
+var time_to_complete = 2000000
 function main() {
     return Events({from_date:"2015-10-20", to_date:"2015-10-20"})
         .groupByUser(function(state, events){
