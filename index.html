@@ -69,17 +69,20 @@ function main() {
       $('#dates').MPDatepicker();
       var script = $('#cq').html();
       script = $.trim(script);
+      function runQuery(){
+        var event_list = $('#event_list').val().split(',');
+        var queryParams = {
+          to_date:"2015-10-20",
+          from_date:"2015-10-20",
+          event_list:event_list
+        };
+        MP.api.custom_query(script, queryParams).done(function(results) {
+            cqResult = results[0];
+            console.log(cqResult)
+        })
+      }
       $("#run_button").on('click', function() {
-      var event_list = $('#event_list').val().split(',');
-      var queryParams = {
-        to_date:"2015-10-20",
-        from_date:"2015-10-20",
-        event_list:event_list
-      };
-      MP.api.custom_query(script, queryParams).done(function(results) {
-          cqResult = results[0];
-          console.log(cqResult)
-      })
+        runQuery();
       })
       // Run queries and display results here
     </script>
