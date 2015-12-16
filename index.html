@@ -11,9 +11,6 @@
     <div class="events_label">Funnel Steps:</div>
     <input id="event_list" value="View signup,$signup,Viewed report">
     <button id="run_button">Run query</button>
-    <script>
-      var event_list = $('#event_list').val().split(',');
-    </script>
         <script type="text/cq" id="cq">
 var dates = {from_date:"2015-10-20", to_date:"2015-10-20"}
 var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
@@ -76,6 +73,7 @@ function main() {
         event_list:event_list
       };
       $("#run_button").on('click', function() {
+      var event_list = $('#event_list').val().split(',');
       MP.api.custom_query(script, queryParams).done(function(results) {
           cqResult = results[0];
           console.log(cqResult)
