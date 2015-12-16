@@ -4,11 +4,75 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
-    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
+    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js?a=1"></script>
   </head>
   <body class="mixpanel-platform-body">
     <h1>Hello, World!</h1>
+    <button id="run_button">Run query</button>
+        <script type="text/cq" id="cq">
+var params = {from_date:"2015-10-20", to_date:"2015-10-20"}
+var steps = ["App Open", "Game Played", "In-App Purchase", "Session End"]
+var time_to_complete = 7000
+function main() {
+    return Events(params)
+        .groupByUser(function(state, events){
+            var state = state || {start:0}
+            for (var i=0; i<events.length; i++){
+                if (events[i].name == steps[0]){
+                    state[events[i].name] = state[events[i].name] || 0;
+                    state[events[i].name]++
+                    state.start = 1
+                    state.time = events[i].time
+                }
+                if (state.start == steps.length || (events[i].time - state.time) > time_to_complete){
+                    state.start = 0;
+                }
+                if (events[i].name == steps[state.start] && state.start != 0){
+                    state.start += 1
+                    state[events[i].name] = state[events[i].name] || 0;
+                    state[events[i].name]++
+                }    
+            }
+            return state
+        })
+        .reduce(function(accumulators, items){
+            var result = {}
+            for (var i=0; i<items.length; i++){
+                for (step in items[i].value){
+                    result[step] = result[step] || 0;
+                    result[step] += items[i].value[step]; 
+                }
+            }
+            for (var i=0; i<accumulators.length; i++){
+                for (step in accumulators[i]){
+                    result[step] = result[step] || 0;
+                    result[step] += accumulators[i][step]
+                }
+            }
+            return result
+        })
+        .map(function(item){
+            var result = {}
+            for (step in steps){
+                result[steps[step]] = item[steps[step]]
+                if (step > 0){
+                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(2)
+                }
+            }
+            return result
+        })
+}
+    </script>
     <script>
+      var script = $('#cq').html();
+      script = $.trim(script);
+      var queryParams = {};
+      $("#run_button").on('click', function() {
+      MP.api.custom_query(script, queryParams).done(function(results) {
+          cqResult = results[0];
+          console.log(cqResult)
+      })
+      })
       // Run queries and display results here
     </script>
   </body>
