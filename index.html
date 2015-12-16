@@ -13,7 +13,7 @@
     <button id="run_button">Run query</button>
         <script type="text/cq" id="cq">
 var params = {from_date:"2015-10-20", to_date:"2015-10-20"}
-var steps = ["App Open", "Game Played", "In-App Purchase", "Session End"]
+var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
 var time_to_complete = 7000
 function main() {
     return Events(params)
@@ -70,7 +70,9 @@ function main() {
       console.log(event_list)
       var script = $('#cq').html();
       script = $.trim(script);
-      var queryParams = {};
+      var queryParams = {
+        event_list:event_list
+      };
       $("#run_button").on('click', function() {
       MP.api.custom_query(script, queryParams).done(function(results) {
           cqResult = results[0];
