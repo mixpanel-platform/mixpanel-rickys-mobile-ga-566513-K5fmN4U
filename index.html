@@ -12,11 +12,10 @@
     <input id="event_list" value="View signup,$signup,Viewed report">
     <button id="run_button">Run query</button>
         <script type="text/cq" id="cq">
-var params = {from_date:"2015-10-20", to_date:"2015-10-20"}
 var steps = ["App Open", "Game Played", "In-App Purchase", "Session End"]
 var time_to_complete = 7000
 function main() {
-    return Events(params)
+    return Events(to_date:params.to_date, from_date:params.from_date)
         .groupByUser(function(state, events){
             var state = state || {start:0}
             for (var i=0; i<events.length; i++){
@@ -71,6 +70,8 @@ function main() {
       $("#run_button").on('click', function() {
       var event_list = $('#event_list').val().split(',');
       var queryParams = {
+        from_date:"2015-10-20",
+        to_date:"2015-10-20",
         event_list:event_list
       };
       MP.api.custom_query(script, queryParams).done(function(results) {
