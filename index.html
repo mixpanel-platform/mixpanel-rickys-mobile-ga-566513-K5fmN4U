@@ -6,6 +6,114 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js?a=1"></script>
+    
+    <!-- CSS GOES HERE -->
+    <style>
+      #report {
+        margin: 20px 0 55px;
+      }
+      #background {
+        background-color: #fdfdfd;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        border: 1px solid #bfcfda;
+        position: relative;
+      }
+      #axis, #graph {
+        padding-top: 55px;
+      }
+      #axis {
+        width: 55px;
+        position: absolute;
+        text-align: right;
+      }
+      #graph {
+        background-color: white;
+        margin-left: 55px;
+        border-left: 1px solid #d4e0e8;
+        -webkit-border-radius: 0 5px 5px 0;
+        border-radius: 0 5px 5px 0;
+        bottom: 0;
+        position: relative;
+      }
+      #graph-overlay {
+        margin-left: 55px;
+        position: absolute;
+        bottom: -51px;
+      }
+      .line, .label {
+        height: 55px;
+      }
+      .label {
+        padding-right: 10px;
+      }
+      .line {
+        border-top: 1px dashed #d2dfe7;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .funnel-step {
+        margin: 0 35px;
+        width: 100px;
+        display: inline-block;
+      }
+      .converted, .dropped {
+        text-align: center;
+        font-weight: bold;
+      }
+      .converted {
+        width: 60px;
+        margin: 0 auto;
+        background-color: #65afe7;
+      }
+      .converted.first {
+        -webkit-border-radius: 3px 3px 0 0;
+        border-radius: 3px 3px 0 0;
+      }
+      .dropped {
+        width: 60px;
+        margin: 0 auto;
+        background-color: #e0e3ed;
+        -webkit-border-radius: 3px 3px 0 0;
+        border-radius: 3px 3px 0 0;
+        cursor: pointer;
+      }
+      .dropped:hover {
+        background-color: #cfd3e3;
+      }
+      .column-label {
+        margin-bottom: 8px;
+        margin-top: 23px;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .column-label.active {
+        margin-top: 15px;
+        margin-bottom: 0;
+        padding: 7px 14px;
+        border: 1px solid #c4c9d8;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        box-shadow: inset 0 1px #fff,0 1px 3px rgba(0,0,0,0.1);
+        background-color: #f4f6f9;
+        background-image: -webkit-linear-gradient(#f7f8fb,#f0f2f5);
+        background-image: linear-gradient(#f7f8fb,#f0f2f5);
+      }
+      .flow {
+        display: none;
+      }
+      .header {
+        padding: 10px 0;
+        font-size: 15px;
+        font-weight: bold;
+        text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+      }
+    </style>
+    
   </head>
   <body class="mixpanel-platform-body">
     <h1>Transactional Funnels</h1>
@@ -13,11 +121,37 @@
     <div id="dates"></div>
     <input id="event_list" value="App Open,Game Played,Session End">
     <button id="run_button">Run query</button>
-    <div id="chart_div"></div>
-        <script type="text/cq" id="cq">
-var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
-var time_to_complete = 2000000
-function main() {
+    
+    <!-- Stupid chart starts here -->
+    <div id="report">
+        <div id="background">
+          <div id="axis">
+            <div class="label"></div>
+            <div class="label"></div>
+            <div class="label"></div>
+            <div class="label"></div>
+            <div class="label"></div>
+            <div class="label"></div>
+          </div>
+          <div id="graph">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+          <div id="graph-overlay">
+            <div id="funnel"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Stupid chart ends here -->
+      
+<script type="text/cq" id="cq">
+  var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
+  var time_to_complete = 2000000
+  function main() {
     return Events({to_date:params.to_date, from_date:params.from_date})
         .groupByUser(function(state, events){
             var state = state || {start:0}
