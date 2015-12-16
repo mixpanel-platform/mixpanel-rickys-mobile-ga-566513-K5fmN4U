@@ -55,11 +55,11 @@
         user-select: none;
       }
       .funnel-step {
-        margin: 0 35px;
-        width: 100px;
+        margin: 0 45px;
+        width: 90px;
         display: inline-block;
         position:relative;
-        bottom:278px;
+        bottom:47px;
         background-color:#65afe7;
       }
       .converted, .dropped {
@@ -229,6 +229,8 @@
       
       // This draws the stupid funnel.
       function drawFunnel(events) {
+        // Delete stupid funnel if one already exists
+        $("#funnel").empty();
         var baseline = cqResult[events[0]];
         // Calculate height of elements.
         for (var i=0; i < events.length; i++) {
