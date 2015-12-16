@@ -10,6 +10,7 @@
     <h1>Transactional Funnels</h1>
     <div class="events_label">Funnel Steps:</div>
     <input id="event_list" value="View signup,$signup,Viewed report">
+    $('<div>').MPDatepicker();
     <button id="run_button">Run query</button>
         <script type="text/cq" id="cq">
 var steps = params.event_list || ["App Open", "Game Played", "In-App Purchase", "Session End"]
