@@ -41,6 +41,23 @@
         position: absolute;
         bottom: -51px;
       }
+      .center {
+        text-align:center;
+      }
+      .event-count {
+        position:absolute;
+        top:-20px;
+        text-align:center;
+        font-size:13px;
+      }
+      .event-label {
+       text-align:center;
+       font-weight:800;
+       font-size:14px; 
+       position:absolute;
+       bottom:-30px;
+       text-overflow: ellipsis;
+      }
       .line, .label {
         height: 55px;
       }
@@ -56,7 +73,7 @@
       }
       .funnel-step {
         margin: 0 45px;
-        width: 90px;
+        width: 80px;
         display: inline-block;
         position:relative;
         bottom:47px;
@@ -115,6 +132,13 @@
         font-weight: bold;
         text-shadow: 0 1px 0 rgba(255,255,255,0.7);
       }
+      .trends {
+        width: 10000px;
+        position: absolute;
+        z-index: 9;
+        top: 230px;
+        left: 118px;
+      }
     </style>
     
   </head>
@@ -145,6 +169,7 @@
             <div class="line"></div>
           </div>
           <div id="graph-overlay">
+            <div class="trends"></div>
             <div id="funnel"></div>
           </div>
         </div>
@@ -213,7 +238,6 @@
       }
       function runQuery(){
         var event_list = $('#event_list').val().split(',');
-        console.log(event_list);
         var dateVal = $('#dates').val();
         var queryParams = {
           from_date: date_to_string(dateVal.from),
@@ -238,9 +262,10 @@
           result = cqResult[events[i]];
           height[i] = Math.round(336 * (result/baseline));
         }
-        // Add funnel steps
+        // Add funnel steps and conversion rate stuff
         for (var i=0; i < height.length; i++) {
-          $("#funnel").append("<div class='funnel-step' style='height:"+height[i]+"px'><div class='count'>123</div><div class='label'>Event 1</div></div>");
+          console.log(events[i]);
+          $("#funnel").append("<div class='funnel-step' style='height:"+height[i]+"px'><div class='event-count'><span class='center'>"+cqResult[events[i]]+"</span></div><div class='event-label'><span class='center'>"+events[i]+"</span></div></div>");
         }
       };
       $("#run_button").on('click', function() {
