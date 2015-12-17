@@ -244,7 +244,7 @@
             for (step in steps){
                 result[steps[step]] = item[steps[step]]
                 if (step > 0){
-                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(3)
+                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(2)
                 }
             }
             return result
@@ -292,7 +292,7 @@
           
           // Check to see if conversion rate is there and then draw the stupid thing
           if (cqResult[i]) {
-            $(".trends").append("<div class='converted'><div class='percent'>"+(cqResult[i] * 100)+"</div></div>");
+            $(".trends").append("<div class='converted'><div class='percent'>"+toFixed((cqResult[i] * 100))+"</div></div>");
           }
         }
       };
