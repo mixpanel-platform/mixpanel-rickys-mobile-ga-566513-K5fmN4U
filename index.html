@@ -55,7 +55,7 @@
        font-weight:800;
        font-size:14px; 
        position:absolute;
-       bottom:-30px;
+       bottom:-40px;
        text-overflow: ellipsis;
       }
       .line, .label {
@@ -133,11 +133,20 @@
         text-shadow: 0 1px 0 rgba(255,255,255,0.7);
       }
       .trends {
-        width: 10000px;
+        /*width: 10000px;*/
+        height:20px;
         position: absolute;
         z-index: 9;
-        top: 230px;
-        left: 118px;
+        top: 116px;
+        left: 140px;
+      }
+      .percent {
+        height: 25px;
+        margin: 8px 6px 0px 4px;
+        color: #3f516b;
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
       }
     </style>
     
@@ -169,7 +178,11 @@
             <div class="line"></div>
           </div>
           <div id="graph-overlay">
-            <div class="trends"></div>
+            <div class="trends">
+              <!--<div class="converted">-->
+              <!--  <div class="percent"></div> -->
+              <!--</div>-->
+            </div>
             <div id="funnel"></div>
           </div>
         </div>
@@ -262,10 +275,15 @@
           result = cqResult[events[i]];
           height[i] = Math.round(336 * (result/baseline));
         }
-        // Add funnel steps and conversion rate stuff
+        // Add funnel steps and dumb conversion rate stuff
         for (var i=0; i < height.length; i++) {
-          console.log(events[i]);
+          // console.log(events[i]);
           $("#funnel").append("<div class='funnel-step' style='height:"+height[i]+"px'><div class='event-count'><span class='center'>"+cqResult[events[i]]+"</span></div><div class='event-label'><span class='center'>"+events[i]+"</span></div></div>");
+          
+          // Check to see if conversion rate is there and then draw the stupid thing
+          if (cqResult[i]) {
+            $(".trends").append("<div class='converted'><div class='percent'>"+cqResult[i]+"</div></div>")
+          }
         }
       };
       $("#run_button").on('click', function() {
