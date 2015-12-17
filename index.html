@@ -47,15 +47,15 @@
       .event-count {
         position:absolute;
         top:-20px;
-        text-align:center;
         font-size:13px;
+        left:15px;
       }
       .event-label {
        text-align:center;
        font-weight:800;
-       font-size:14px; 
+       font-size:12px; 
        position:absolute;
-       bottom:-40px;
+       bottom:-30px;
        text-overflow: ellipsis;
       }
       .line, .label {
@@ -84,9 +84,10 @@
         font-weight: bold;
       }
       .converted {
-        width: 60px;
-        margin: 0 auto;
-        background-color: #65afe7;
+        width: 50px;
+        margin: 0 60px 0 60px;
+        background-color: #FFFFFF;
+        border: 1px rgba(128, 128, 128, 0.49) solid;
       }
       .converted.first {
         -webkit-border-radius: 3px 3px 0 0;
@@ -133,20 +134,28 @@
         text-shadow: 0 1px 0 rgba(255,255,255,0.7);
       }
       .trends {
-        /*width: 10000px;*/
-        height:20px;
+        display: inline-flex;
+        align-items: flex-start;
+        flex-direction: row;
+        height: 20px;
         position: absolute;
         z-index: 9;
         top: 116px;
-        left: 140px;
+        left: 85px;
       }
       .percent {
         height: 25px;
-        margin: 8px 6px 0px 4px;
+        margin: 3px 0px 0px 3px;
         color: #3f516b;
         font-size: 16px;
         font-weight: 500;
-        text-align: center;
+      }
+      .percent:after {
+        content: "%";
+        font-size: .6em;
+        position: relative;
+        bottom: 4px;
+        left: 1px;
       }
     </style>
     
@@ -235,7 +244,7 @@
             for (step in steps){
                 result[steps[step]] = item[steps[step]]
                 if (step > 0){
-                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(3)
+                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(2)
                 }
             }
             return result
@@ -283,7 +292,7 @@
           
           // Check to see if conversion rate is there and then draw the stupid thing
           if (cqResult[i]) {
-            $(".trends").append("<div class='converted'><div class='percent'>"+cqResult[i]+"</div></div>")
+            $(".trends").append("<div class='converted'><div class='percent'>"+(cqResult[i] * 100)+"</div></div>");
           }
         }
       };
