@@ -292,7 +292,7 @@
           
           // Check to see if conversion rate is there and then draw the stupid thing
           if (cqResult[i]) {
-            $(".trends").append("<div class='converted'><div class='percent'>"+toFixed((cqResult[i] * 100))+"</div></div>");
+            $(".trends").append("<div class='converted'><div class='percent'>"+(cqResult[i] * 100).toFixed(3)+"</div></div>");
           }
         }
       };
