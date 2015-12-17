@@ -244,7 +244,7 @@
             for (step in steps){
                 result[steps[step]] = item[steps[step]]
                 if (step > 0){
-                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(2)
+                    result[step] = (item[steps[step]] / item[steps[step-1]]).toFixed(3)
                 }
             }
             return result
